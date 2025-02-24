@@ -9,8 +9,7 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'avatar.iran.liara.run',
         port: '',
-        pathname: '/**/**',
-        search: '',
+        pathname: '/**',
       },
       {
         protocol: 'https',
@@ -18,6 +17,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**/**',
         search: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },
