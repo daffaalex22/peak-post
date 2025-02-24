@@ -20,8 +20,6 @@ export default function PostCard({
 }: PostCardProps) {
   const readMinutes = Math.ceil(readDuration / 60);
 
-  console.log("backgroundURL", backgroundURL);
-
   return (
     <div className="max-w-xs w-full group/card">
       <div
