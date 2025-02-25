@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/ui/navbar-menu";
 import { cn } from "@/lib/utils";
+import { LanguageToggle } from './language-toggle';
 
 export function FixedNavbar() {
   return (
@@ -62,6 +63,10 @@ function Navbar({ className }: { className?: string }) {
             <HoveredLink href="/entertainment">Entertainment</HoveredLink>
             <HoveredLink href="/lifestyle">Lifestyle</HoveredLink>
           </div>
+        </MenuItem>
+        <MenuItem setActive={setActive} active={active} item="Language
+        ">
+          <LanguageToggle />
         </MenuItem>
       </Menu>
     </div>
