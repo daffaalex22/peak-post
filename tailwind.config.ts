@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import type { PluginAPI } from "tailwindcss/types/config";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import tailwindAnimate from "tailwindcss-animate"
 
@@ -53,6 +54,9 @@ export default {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
+			boxShadow: {
+        input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
+      },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -60,19 +64,28 @@ export default {
   		},
 			animation: {
         move: "move 5s linear infinite",
+				shimmer: "shimmer 2s linear infinite"
       },
       keyframes: {
         move: {
           "0%": { transform: "translateX(-200px)" },
           "100%": { transform: "translateX(200px)" },
         },
+				shimmer: {
+					from: {
+						"backgroundPosition": "0 0"
+					},
+					to: {
+						"backgroundPosition": "-200% 0"
+					}
+				}
       },
   	}
   },
   plugins: [tailwindAnimate, addVariablesForColors],
 } satisfies Config;
 
-function addVariablesForColors({ addBase, theme }: any) {
+function addVariablesForColors({ addBase, theme }: PluginAPI) {
   const allColors = flattenColorPalette(theme("colors"));
   const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
