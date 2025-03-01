@@ -68,6 +68,7 @@ function Navbar({ className }: { className?: string }) {
         ">
           <LanguageToggle />
         </MenuItem>
+        <span className="text-red-600 text-green-500">&nbsp;●&nbsp;</span>
       </Menu>
     </div>
   );

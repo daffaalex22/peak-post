@@ -4,6 +4,7 @@ import { LoginModal } from "./ui/login-modal";
 const articles = [
   {
     title: "Breaking Down the Webb Telescope Discoveries",
+    slug: "breaking-down-the-webb-telescope-discoveries",
     subtitle: "New insights into the early universe",
     readDuration: 180,
     avatarURL: "https://avatar.iran.liara.run/public/32",
@@ -15,6 +16,7 @@ const articles = [
   },
   {
     title: "The Changing Dynamics of Indo-Pacific Relations",
+    slug: "the-changing-dynamics-of-indo-pacific-relations",
     subtitle: "Analysis of regional geopolitical shifts",
     readDuration: 240,
     avatarURL: "https://avatar.iran.liara.run/public/54",
@@ -26,6 +28,7 @@ const articles = [
   },
   {
     title: "Formula 1: Evolution of Racing Technology",
+    slug: "formula-1-evolution-of-racing-technology",
     subtitle: "How engineering shapes modern motorsports",
     readDuration: 150,
     avatarURL: "https://avatar.iran.liara.run/public/26",
@@ -37,6 +40,7 @@ const articles = [
   },
   {
     title: "Climate Change: Arctic Ice Recovery Patterns",
+    slug: "climate-change-arctic-ice-recovery-patterns",
     subtitle: "Latest research on polar climate trends",
     readDuration: 120,
     avatarURL: "https://avatar.iran.liara.run/public/84",
@@ -48,6 +52,7 @@ const articles = [
   },
   {
     title: "The Rise of Women's Football",
+    slug: "the-rise-of-womens-football",
     subtitle: "Changing landscape in professional sports",
     readDuration: 200,
     avatarURL: "https://avatar.iran.liara.run/public/5",
@@ -59,6 +64,7 @@ const articles = [
   },
   {
     title: "Breakthrough in Quantum Computing",
+    slug: "breakthrough-in-quantum-computing",
     subtitle: "Recent advances in quantum error correction",
     readDuration: 160,
     avatarURL: "https://avatar.iran.liara.run/public/58",
