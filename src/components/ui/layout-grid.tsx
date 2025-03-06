@@ -1,8 +1,7 @@
 "use client";
-import React, { useState, useRef, useEffect, JSX } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useState, useRef, JSX } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { Button } from "./button";
 import Link from "next/link";
@@ -16,7 +15,7 @@ type Card = {
 };
 
 export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
-  const layoutRef = useRef(null);
+  const layoutRef = useRef<HTMLDivElement>({} as HTMLDivElement);
   const [selected, setSelected] = useState<Card | null>(null);
   const [lastSelected, setLastSelected] = useState<Card | null>(null);
 
