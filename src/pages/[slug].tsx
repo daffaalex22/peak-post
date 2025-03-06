@@ -1,45 +1,49 @@
 import { FixedNavbar } from '@/components/navbar';
 import { MembersChip } from '../components/members-chip';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { GetArticlesDocument, Article } from "../../graphql/generated";
+import { GetArticlesDocument, Article, GetHomeDocument, Home } from "../../graphql/generated";
 import { MarkdownRenderer } from './../components/markdown-renderer';
 import client from '@/lib/apollo-client';
 
 interface ArticlePageProps {
   article: Article;
+  content: Home
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const client = new ApolloClient({
-    uri: "https://peak-post-strapi.onrender.com/graphql",
-    cache: new InMemoryCache(),
-  });
+export const getStaticPaths: GetStaticPaths = async ({ locales = ['en'] }) => {
+  // Get paths for all locales
+  const paths = await Promise.all(
+    locales.map(async (locale) => {
+      const { data } = await client.query({
+        query: GetArticlesDocument,
+        variables: {
+          locale,
+          tenant: "Java"
+        },
+      });
 
-  const { data } = await client.query({
-    query: GetArticlesDocument,
-    variables: {
-      locale: "en",
-      tenant: "Java"
-    },
-  });
+      // Generate paths for each article in each locale
+      return data.articles.map((article: Article) => ({
+        params: { slug: article.slug },
+        locale
+      }));
+    })
+  );
 
-  // Generate paths for each article
-  const paths = data.articles.map((article: Article) => ({
-    params: { slug: article.slug }
-  }));
+  // Flatten the array of arrays into a single array of paths
+  const flatPaths = paths.flat();
 
   return {
-    paths,
-    fallback: 'blocking' // or false if you want 404 for new paths
+    paths: flatPaths,
+    fallback: 'blocking'
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params, locale = 'en' }) => {
   const { data } = await client.query({
     query: GetArticlesDocument,
     variables: {
-      locale: "en",
+      locale,
       tenant: "Java"
     },
   });
@@ -51,23 +55,30 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   if (!article) {
     return {
-      notFound: true // Returns 404 page
+      notFound: true
     };
   }
+
+  const { data: homeData } = await client.query({
+    query: GetHomeDocument,
+    variables: {
+      locale
+    },
+  });
 
   return {
     props: {
       article,
-    },
-    revalidate: 60, // Optional: revalidate every 60 seconds
+      content: homeData?.home || {}
+    }
   };
 };
 
-export default function ArticleDetails({ article }: ArticlePageProps) {
+export default function ArticleDetails({ article, content }: ArticlePageProps) {
 
   return (
     <>
-      <FixedNavbar />
+      <FixedNavbar content={content} />
       <div className="flex flex-wrap gap-x-2 gap-y-6 p-6 justify-center">
         <div className="basis-[85%] sm:basis-[72%]">
           <h1 className="text-5xl font-bold italic">
