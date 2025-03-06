@@ -1,0 +1,31 @@
+query GetArticles($locale: String!, $tenant: String!) {
+  articles (filters:  {
+    and: [ 
+      { tenants:  { name:  { eq: $tenant }}}
+    ]
+    locale:  {
+      eq: $locale
+    }
+  }) {
+    slug
+    title
+    tenants {
+      name
+    }
+    author {
+      avatarURL
+      email
+      name
+    }
+    blocks {
+      ... on ComponentSharedRichText {
+        id
+        body
+      }
+    }
+    coverURL
+    description
+    isFeatured
+    isMembersOnly
+  }
+}

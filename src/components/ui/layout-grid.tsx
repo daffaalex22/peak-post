@@ -1,16 +1,18 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, JSX } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { Button } from "./button";
+import Link from "next/link";
 
 type Card = {
-  id: number;
+  id: number | string;
   content: JSX.Element | React.ReactNode | string;
   className: string;
   thumbnail: string;
+  slug: string;
 };
 
 export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
@@ -114,7 +116,11 @@ const SelectedCard = ({ selected }: { selected: Card | null }) => {
         {selected?.content}
         <div className="justify-self-end">
           <Button>
-            View full story
+            <Link
+              href={`/${selected?.slug}`}
+            >
+              View full story
+            </Link>
           </Button>
         </div>
       </motion.div>

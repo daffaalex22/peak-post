@@ -2,6 +2,8 @@ import type { Config } from "tailwindcss";
 import type { PluginAPI } from "tailwindcss/types/config";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import tailwindAnimate from "tailwindcss-animate"
+import tailwindTypography from "@tailwindcss/typography"
+
 
 export default {
     darkMode: ["class"],
@@ -82,7 +84,11 @@ export default {
       },
   	}
   },
-  plugins: [tailwindAnimate, addVariablesForColors],
+  plugins: [
+		tailwindAnimate, 
+		addVariablesForColors,
+		tailwindTypography
+	],
 } satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: PluginAPI) {
