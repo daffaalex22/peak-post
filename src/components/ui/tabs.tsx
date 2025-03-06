@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 type Tab = {
   title: string;
   value: string;
-  content?: string | React.ReactNode | any;
+  content?: string | React.ReactNode | React.ReactNode[];
 };
 
 export const Tabs = ({
@@ -24,10 +24,10 @@ export const Tabs = ({
   tabClassName?: string;
   contentClassName?: string;
 }) => {
-  const [active, setActive] = useState<Tab>(propTabs[0]);
-  const [tabs, setTabs] = useState<Tab[]>(propTabs);
-
   const router = useRouter();
+
+  const [active, setActive] = useState<Tab>(propTabs.filter(p => p.value === router.locale)[0]);
+  const [tabs, setTabs] = useState<Tab[]>(propTabs);
 
   const { asPath } = router;
   const changeLanguage = (newLocale: string) => {

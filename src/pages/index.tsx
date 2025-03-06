@@ -2,62 +2,81 @@ import { FixedNavbar } from "@/components/navbar";
 import ArticleList from '@/components/article-list';
 import { TextHoverEffect } from '@/components/ui/text-hover-effect';
 import { FeaturedArticles } from './../components/featured-articles';
-import { Article, GetArticlesDocument } from "../../graphql/generated";
+import { Article, GetArticlesDocument, GetHomeDocument, Home as HomeContent } from "../../graphql/generated";
 import { GetStaticProps } from "next";
 import client from "@/lib/apollo-client";
 
-interface HomeProps {
-  articles: Article[];
+interface StaticPropsContext {
+  locale?: string;
 }
 
-export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+interface HomeProps {
+  articles: Article[];
+  content: HomeContent;
+}
+
+export const getStaticProps: GetStaticProps<HomeProps> = async (
+  context: StaticPropsContext
+) => {
   try {
-    const { data } = await client.query({
+    const { data: articlesData } = await client.query({
       query: GetArticlesDocument,
       variables: {
-        locale: "en",
+        locale: context.locale,
         tenant: "Java"
+      },
+    });
+
+    const { data: homeData } = await client.query({
+      query: GetHomeDocument,
+      variables: {
+        locale: context.locale
       },
     });
 
     return {
       props: {
-        articles: data.articles || [],
+        articles: articlesData.articles || [],
+        content: homeData.home || {},
       },
-      revalidate: 60, // Revalidate every 60 seconds using ISR
     };
   } catch (error) {
     console.error('Error fetching articles:', error);
     return {
       props: {
         articles: [],
+        content: {
+          documentId: '',
+          localizations: [],
+          siteTitle: 'Error loading content'
+        }
       },
       revalidate: 60,
     };
   }
 };
 
-export default function Home({ articles }: HomeProps) {
+export default function Home({ articles, content }: HomeProps) {
 
   return (
     <>
-      <FixedNavbar />
+      <FixedNavbar content={content} />
       {/* Title */}
       <div className="flex flex-wrap gap-x-2 gap-y-6 p-6 justify-center">
         <div className="basis-[85%] sm:basis-[72%]">
           <h1 className="text-6xl font-bold italic">
-            Peak Post
+            {content.siteTItle}
           </h1>
-          <p className="text-lg mt-4">Cutting-Edge Journalism for the Digital Age</p>
+          <p className="text-lg mt-4">{content.siteTagline}</p>
         </div>
       </div>
       <FeaturedArticles articles={articles?.filter((i) => i?.tenants && i.tenants.length > 1) as Article[]} />
       <div className="flex flex-wrap gap-x-2 gap-y-6 p-6 justify-center">
         <div className="basis-[85%] sm:basis-[72%]">
           <h1 className="text-6xl font-bold italic">
-            Explore
+            {content.exploreTitle}
           </h1>
-          <p className="text-lg mt-4">Discover our latest stories and in-depth reporting from around the world</p>
+          <p className="text-lg mt-4">{content.exploreSubtitle}</p>
         </div>
       </div>
       <ArticleList articles={articles?.filter((i) => i?.tenants.length == 1) as Article[]} />

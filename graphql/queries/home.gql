@@ -1,0 +1,17 @@
+query GetHome($locale: I18NLocaleCode) {
+  home(locale: $locale) {
+    documentId
+    siteTItle
+    siteTagline
+    exploreTitle
+    exploreSubtitle
+    navItems
+    newsTypes
+    siteFeatures
+    siteSections
+    createdAt
+    updatedAt
+    publishedAt
+    locale
+  }
+}

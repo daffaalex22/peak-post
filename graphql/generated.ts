@@ -1585,6 +1585,13 @@ export type GetArticlesQueryVariables = Exact<{
 
 export type GetArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', slug?: string | null, title?: string | null, coverURL?: string | null, description?: string | null, isFeatured?: boolean | null, isMembersOnly?: boolean | null, tenants: Array<{ __typename?: 'Tenant', name?: string | null } | null>, author?: { __typename?: 'Author', avatarURL?: string | null, email?: string | null, name?: string | null } | null, blocks?: Array<{ __typename?: 'ComponentSharedMedia' } | { __typename?: 'ComponentSharedQuote' } | { __typename?: 'ComponentSharedRichText', id: string, body?: string | null } | { __typename?: 'ComponentSharedSlider' } | { __typename?: 'Error' } | null> | null } | null> };
 
+export type GetHomeQueryVariables = Exact<{
+  locale?: InputMaybe<Scalars['I18NLocaleCode']['input']>;
+}>;
+
+
+export type GetHomeQuery = { __typename?: 'Query', home?: { __typename?: 'Home', documentId: string, siteTItle?: string | null, siteTagline?: string | null, exploreTitle?: string | null, exploreSubtitle?: string | null, navItems?: any | null, newsTypes?: any | null, siteFeatures?: any | null, siteSections?: any | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null, locale?: string | null } | null };
+
 
 export const GetArticlesDocument = gql`
     query GetArticles($locale: String!, $tenant: String!) {
@@ -1648,3 +1655,55 @@ export type GetArticlesQueryHookResult = ReturnType<typeof useGetArticlesQuery>;
 export type GetArticlesLazyQueryHookResult = ReturnType<typeof useGetArticlesLazyQuery>;
 export type GetArticlesSuspenseQueryHookResult = ReturnType<typeof useGetArticlesSuspenseQuery>;
 export type GetArticlesQueryResult = Apollo.QueryResult<GetArticlesQuery, GetArticlesQueryVariables>;
+export const GetHomeDocument = gql`
+    query GetHome($locale: I18NLocaleCode) {
+  home(locale: $locale) {
+    documentId
+    siteTItle
+    siteTagline
+    exploreTitle
+    exploreSubtitle
+    navItems
+    newsTypes
+    siteFeatures
+    siteSections
+    createdAt
+    updatedAt
+    publishedAt
+    locale
+  }
+}
+    `;
+
+/**
+ * __useGetHomeQuery__
+ *
+ * To run a query within a React component, call `useGetHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetHomeQuery({
+ *   variables: {
+ *      locale: // value for 'locale'
+ *   },
+ * });
+ */
+export function useGetHomeQuery(baseOptions?: Apollo.QueryHookOptions<GetHomeQuery, GetHomeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHomeQuery, GetHomeQueryVariables>(GetHomeDocument, options);
+      }
+export function useGetHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHomeQuery, GetHomeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHomeQuery, GetHomeQueryVariables>(GetHomeDocument, options);
+        }
+export function useGetHomeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetHomeQuery, GetHomeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetHomeQuery, GetHomeQueryVariables>(GetHomeDocument, options);
+        }
+export type GetHomeQueryHookResult = ReturnType<typeof useGetHomeQuery>;
+export type GetHomeLazyQueryHookResult = ReturnType<typeof useGetHomeLazyQuery>;
+export type GetHomeSuspenseQueryHookResult = ReturnType<typeof useGetHomeSuspenseQuery>;
+export type GetHomeQueryResult = Apollo.QueryResult<GetHomeQuery, GetHomeQueryVariables>;
