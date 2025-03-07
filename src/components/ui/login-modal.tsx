@@ -11,8 +11,9 @@ import {
   IconBrandGoogle,
   IconBrandApple,
 } from "@tabler/icons-react";
+import { signIn } from "next-auth/react";
 
-export function LoginModal({ children }: {children: React.ReactNode}) {
+export function LoginModal({ children, articleSlug }: { children: React.ReactNode, articleSlug: string }) {
   return (
     <div className="flex items-center justify-center w-full md:w-1/3 lg:w-1/4">
       <Modal>
@@ -28,13 +29,15 @@ export function LoginModal({ children }: {children: React.ReactNode}) {
               </span>{" "}
               to Access This Content 🚀
             </h4>
-            <form className="mb-8">
+            <form className="mb-4">
               <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
               {/* Continue using Another Account */}
               <div className="flex flex-col space-y-4">
                 <button
                   className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
+                  type="button"
+                  onClick={() => signIn("google", { callbackUrl: `/${articleSlug}` })}
                 >
                   <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
                   <span className="text-neutral-700 dark:text-neutral-300 text-sm">
@@ -44,7 +47,7 @@ export function LoginModal({ children }: {children: React.ReactNode}) {
                 </button>
                 <button
                   className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                  type="submit"
+                  type="button"
                   disabled
                 >
                   <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
@@ -55,7 +58,7 @@ export function LoginModal({ children }: {children: React.ReactNode}) {
                 </button>
                 <button
                   className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                  type="submit"
+                  type="button"
                   disabled
                 >
                   <IconBrandApple className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />

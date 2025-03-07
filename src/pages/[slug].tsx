@@ -78,7 +78,7 @@ export default function ArticleDetails({ article, content }: ArticlePageProps) {
 
   return (
     <>
-      <FixedNavbar content={content} />
+      <FixedNavbar home={false} content={content} />
       <div className="flex flex-wrap gap-x-2 gap-y-6 p-6 justify-center">
         <div className="basis-[85%] sm:basis-[72%]">
           <h1 className="text-5xl font-bold italic">

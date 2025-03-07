@@ -4,6 +4,7 @@ import Image from "next/image";
 import { MembersChip } from "./members-chip";
 import { useRouter } from "next/router";
 import { Article } from "../../graphql/generated";
+import { useSession } from "next-auth/react";
 
 interface PostCardProps {
   article: Article;
@@ -21,9 +22,10 @@ export default function PostCard({
 }: PostCardProps) {
   const readMinutes = Math.ceil(180 / 60);
   const router = useRouter();
+  const { status } = useSession();
 
   const handleClicked = () => {
-    if (!isMembersOnly) {
+    if (!isMembersOnly || (isMembersOnly && status === "authenticated")) {
       router.push(`/${slug}`);
     }
   }

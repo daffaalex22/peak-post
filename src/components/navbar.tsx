@@ -4,22 +4,32 @@ import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/ui/navbar
 import { cn } from "@/lib/utils";
 import { LanguageToggle } from './language-toggle';
 import { Home } from "../../graphql/generated";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-export function FixedNavbar({ content }: { content: Home }) {
+export function FixedNavbar({ content, home = true }: { content: Home, home?: boolean }) {
   return (
     <div className="relative w-full flex items-center justify-center mb-32">
-      <Navbar content={content} className="top-8" />
+      <Navbar content={content} home={home} className="top-8" />
     </div>
   );
 }
 
-function Navbar({ className, content }: { className?: string, content: Home }) {
+function Navbar({ className, content, home = true }: { className?: string, content: Home, home: boolean }) {
   const [active, setActive] = useState<string | null>(null);
+
+  const { status } = useSession();
+  const router = useRouter();
+
   return (
     <div
       className={cn("fixed top-10 inset-x-0 max-w-max sm:max-w-2xl mx-auto z-50", className)}
     >
       <Menu setActive={setActive}>
+        {!home &&
+          <MenuItem setActive={setActive} active={null} item="Home" onClick={() => router.push("/")}>
+          </MenuItem>
+        }
         <MenuItem setActive={setActive} active={active} item={content.navItems[0]}>
           <div className="flex flex-col space-y-4 text-sm">
             {content.newsTypes.map((newsType: string) => (
@@ -51,10 +61,12 @@ function Navbar({ className, content }: { className?: string, content: Home }) {
             ))}
           </div>
         </MenuItem>
-        <MenuItem setActive={setActive} active={active} item={content.navItems[3]}>
-          <LanguageToggle />
-        </MenuItem>
-        <span className="text-red-600 text-green-500">&nbsp;●&nbsp;</span>
+        {home &&
+          <MenuItem setActive={setActive} active={active} item={content.navItems[3]}>
+            <LanguageToggle />
+          </MenuItem>
+        }
+        <span className={status === "authenticated" ? "text-green-500" : "text-red-600"}>&nbsp;●&nbsp;</span>
       </Menu>
     </div>
   );
