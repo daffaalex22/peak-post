@@ -5,6 +5,7 @@ import { FeaturedArticles } from './../components/featured-articles';
 import { Article, GetArticlesDocument, GetHomeDocument, Home as HomeContent } from "../../graphql/generated";
 import { GetStaticProps } from "next";
 import client from "@/lib/apollo-client";
+import { LineShadowText } from './../components/magicui/line-shadow-text';
 
 interface StaticPropsContext {
   locale?: string;
@@ -23,7 +24,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async (
       query: GetArticlesDocument,
       variables: {
         locale: context.locale,
-        tenant: "Java"
+        tenant: process.env.NEXT_PUBLIC_TENANT_NAME
       },
     });
 
@@ -57,6 +58,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async (
 };
 
 export default function Home({ articles, content }: HomeProps) {
+  const tenantName = " " + process.env.NEXT_PUBLIC_TENANT_NAME;
 
   return (
     <>
@@ -65,7 +67,14 @@ export default function Home({ articles, content }: HomeProps) {
       <div className="flex flex-wrap gap-x-2 gap-y-6 p-6 justify-center">
         <div className="basis-[85%] sm:basis-[72%]">
           <h1 className="text-6xl font-bold italic">
-            {content.siteTItle}
+            {content.siteTItle}{" "}
+            <LineShadowText
+              shadowColor={tenantName === " Java" ? "white" : "black"}
+              className="italic"
+            >
+              {tenantName}
+            </LineShadowText>
+
           </h1>
           <p className="text-lg mt-4">{content.siteTagline}</p>
         </div>

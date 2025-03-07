@@ -66,7 +66,8 @@ export default {
   		},
 			animation: {
         move: "move 5s linear infinite",
-				shimmer: "shimmer 2s linear infinite"
+				shimmer: "shimmer 2s linear infinite",
+				"line-shadow": "line-shadow 15s linear infinite",
       },
       keyframes: {
         move: {
@@ -80,7 +81,11 @@ export default {
 					to: {
 						"backgroundPosition": "-200% 0"
 					}
-				}
+				},
+				"line-shadow": {
+          "0%": { "background-position": "0 0" },
+          "100%": { "background-position": "100% -100%" },
+        },
       },
   	}
   },

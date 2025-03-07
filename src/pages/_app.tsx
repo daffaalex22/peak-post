@@ -12,8 +12,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <ApolloProvider client={client}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="dark"
-        forcedTheme="dark"
+          defaultTheme={process.env.NEXT_PUBLIC_TENANT_NAME == "Java" ? "dark" : "light"}
+          forcedTheme={process.env.NEXT_PUBLIC_TENANT_NAME == "Java" ? "dark" : "light"}
         enableSystem
         disableTransitionOnChange
       >

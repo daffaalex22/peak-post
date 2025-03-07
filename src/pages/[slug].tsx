@@ -18,7 +18,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales = ['en'] }) => {
         query: GetArticlesDocument,
         variables: {
           locale,
-          tenant: "Java"
+          tenant: process.env.NEXT_PUBLIC_TENANT_NAME
         },
       });
 
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale = 'en' }) 
     query: GetArticlesDocument,
     variables: {
       locale,
-      tenant: "Java"
+      tenant: process.env.NEXT_PUBLIC_TENANT_NAME
     },
   });
 
