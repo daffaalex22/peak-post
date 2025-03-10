@@ -41,6 +41,44 @@ The project implements a multi-tenant architecture where:
 - The Sunda version serves localized content
 - Both versions connect to the same Strapi backend with different content structures
 
+## 🚀 How to Start This Project Locally
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/peak-post.git
+   cd peak-post
+   ```
+
+2. **Install dependencies**
+   ```bash
+   yarn install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Fill in the following variables in `.env.local`:
+   - `NEXT_PUBLIC_STRAPI_URL`
+   - `NEXT_GOOGLE_OAUTH2_CLIENT_ID`
+   - `NEXT_GOOGLE_OAUTH2_CLIENT_SECRET`
+   - `NEXTAUTH_SECRET`
+   - `NEXTAUTH_URL`
+
+4. **Generate GraphQL types**
+   ```bash
+   yarn codegen
+   ```
+
+5. **Start the development server** 🔥
+   ```bash
+   yarn dev
+   ```
+
+   The app should now be running at [http://localhost:3000](http://localhost:3000)
+
+> 📝 Note: Make sure you also have the [backend server](https://github.com/daffaalex22/peak-post-strapi) running locally.
+
 ## 🔗 Related Links
 
 - Backend Repository: [peak-post-strapi](https://github.com/daffaalex22/peak-post-strapi)
